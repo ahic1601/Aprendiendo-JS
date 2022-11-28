@@ -1,63 +1,73 @@
-// CALCULADORA DE DOSIS PEDIATRICA IBUPROFENO
+//  Vademecum
 
-const Bienvenida = 'Bienvenido, aqui podras calcular la dosis pediatrica de ibuprofeno en jarabe segun la edad y el peso del paciente.';
+alert('BIENVENIDO! \nEsta app sirve para armar un listado de medicamentos en comprimidos.')
 
-alert (Bienvenida);
+const farmacos = []
 
-let edad = parseFloat(prompt('Ingrese la edad en años del paciente'));
-console.log(edad + ' años de edad');
-let peso = parseFloat(prompt('Ingrese el peso en kg del paciente'));
-console.log(peso + ' Kg de peso');
-
-while (isNaN(edad) || isNaN(peso)) {
-    edad = parseFloat(prompt('Ingrese la edad en años del paciente'));
-    peso = parseFloat(prompt('Ingrese el peso en kg del paciente'));
-}
-
-while (edad < 0.5 || edad < 1 / 2) {
-    alert('Pacientes menores de 6 meses no pueden recibir ibuprofeno')
-    edad = parseFloat(prompt('Ingrese la edad en años del paciente'));
-    peso = parseFloat(prompt('Ingrese el peso en kg del paciente'));
-}
-
-const presentacion = prompt('Elija la presentacion del jarabe: Presione "1" si la presentacion esta expresada en porcetaje. \nPresione "2" si la presentacion esta expresada en "mg/dl".')
-
-switch (presentacion) {
-
-    case '1': {
-        let porcetaje = prompt('Ingrese "a" si la presentacion es al 2%. \nIngrese "b" si la presentacion es al 4%.')
-        switch (porcetaje) {
-            case 'a': formulacion = 20
-                break;
-            case 'b': formulacion = 40
-                break;
-        }
+class FarmacoComprimido {
+    constructor() {
+        this.id = farmacos.length + 1;
+        this.name = prompt('Ingresa el nombre quimico del farmaco');
+        this.comercialName = prompt('Ingresa el nombre comercial del farmaco');
+        this.miligram = parseInt(prompt('Ingrese la candidad en miligramos del comprimido '));
+        this.amount = parseInt(prompt('Ingrese la cantidad de comprimidos de la presentacion'));
+        this.boxes = parseInt(prompt('Ingrese la cantidad de cajas del farmaco en existencia'));
+        this.price = parseInt(prompt('Ingrese el precio por caja'))
+        this.photo = prompt('Ingrese la url de la foto del producto')
     }
-        break;
+}
 
-    case '2': {
-        let mg = parseFloat(prompt('Ingrese los mg de la formulación del jarábe'));
-        console.log(mg + ' mg de ibuprofeno');
-        let ml = parseFloat(prompt('Ingrese los ml de la formulacion del jarábe'));
-        console.log('en ' + ml + ' ml');
-        formulacion = (mg / ml);
-        console.log(formulacion + ' mg de ibuprofeno por cada ml de jarábe');
+let opciones = prompt('MENU \nIngrese 1 para agregar farmacos, \n2 para mostrarlos, \n0 para salir');
+
+const agregarFarmacos = () => {
+    const newFarmaco = new FarmacoComprimido();
+    farmacos.push(newFarmaco);
+    console.log(farmacos);
+}
+
+const mostrarFarmacos = () => {
+    console.log('Sus Farmacos son:')
+    
+    farmacos.forEach((farmaco, index) => {
+        console.log(index + 1, farmaco)
+
+    })
+}
+
+
+const menu = (opcion) => {
+    switch (opcion) {
+        case '1':
+            agregarFarmacos();
+            break
+        case '2':
+            mostrarFarmacos();
+            break
+        default:
+            alert('Intente nuevamente');
     }
-        break;
+    opciones = prompt('Ingrese 1 para agregar farmacos, 2 para mostrarlos, 0 para salir');
 }
 
-if (formulacion === 20) {
-    let dosis = (((formulacion / 2) * peso) / formulacion);
-    alert('Debe administrar como maximo ' + dosis + ' ml de ibuprofeno jarabe cada 8 hs');
-    console.log(dosis + ' ml cada 8hs');
-} else if (formulacion === 40) {
-    let dosis = (((formulacion / 2) * peso) / formulacion);
-    alert('Debe administrar como maximo ' + dosis + ' ml de ibuprofeno jarabe cada 8hs')
-    console.log(dosis + ' ml cada 8hs');
+while (opciones !== '0') {
+    menu(opciones)
 }
 
+const container = document.getElementById('contenedor');
 
+let acumulador = '';
+for (const farmaco of farmacos) {
+    acumulador +=
+    `
+    <div class="card" style="width: 18rem;">
+        <img src="${farmacos.photo}" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">${farmacos.comercialName}</h5>
+            <p class="card-text">${farmacos.name + farmacos.miligram + farmacos.amount + farmacos.price}</p>
+            <a href="#" class="btn btn-primary">Comprar</a>
+        </div>
+    </div>
+    `
+}
 
-
-
-
+container.innerHTML = acumulador;
