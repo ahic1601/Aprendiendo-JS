@@ -1,10 +1,41 @@
-//  Vademecum
+//  Farmacia JS
 
-alert('BIENVENIDO! \nEsta app sirve para armar un listado de medicamentos en comprimidos.')
+//alert('BIENVENIDO! \nEsta app sirve para armar un listado de medicamentos en comprimidos.')
 
-const farmacos = []
+const farmacos = [
+    {
+        id: 1,
+        name: 'Diclofenac Sodico',
+        comercialName: 'Rodinac 75',
+        miligram: 75,
+        amount: 15,
+        boxes: 5,
+        price: 800,
+        photo: 'https://geminisfarmaceutica.com.ar/wp-content/uploads/2016/09/productos31.jpg'
+    },
+    {
+        id: 2,
+        name: 'Diclofenac Sodico',
+        comercialName: 'Diclogesic 75',
+        miligram: 75,
+        amount: 30,
+        boxes: 10,
+        price: 1600,
+        photo: 'https://trbpharma.com/_site/wp-content/uploads/2020/12/23.-Diclogesic75x10-2650-05-110x57-copia.jpg'
+    },
+    {
+        id: 3,
+        name: 'Diclofenac Potasico',
+        comercialName: 'Blokium P 75',
+        miligram: 75,
+        amount: 10,
+        boxes: 15,
+        price: 1200,
+        photo: 'https://www.casasco.com.ar/wp-content/uploads/2018/04/Pack_web-24_blokiumP.jpg'
+    },
+];
 
-class FarmacoComprimido {
+/* class FarmacoComprimido {
     constructor() {
         this.id = farmacos.length + 1;
         this.name = prompt('Ingresa el nombre quimico del farmaco');
@@ -17,7 +48,7 @@ class FarmacoComprimido {
     }
 }
 
-let opciones = prompt('MENU \nIngrese 1 para agregar farmacos, \n2 para mostrarlos, \n0 para salir');
+let opciones = prompt('MENU \nIngrese: \n1 para agregar farmacos, \n2 para mostrarlos, \n3 para eliminar un farmaco, \n0 para salir');
 
 const agregarFarmacos = () => {
     const newFarmaco = new FarmacoComprimido();
@@ -27,11 +58,13 @@ const agregarFarmacos = () => {
 
 const mostrarFarmacos = () => {
     console.log('Sus Farmacos son:')
-    
     farmacos.forEach((farmaco, index) => {
         console.log(index + 1, farmaco)
-
     })
+}
+
+const eliminarFarmacos = () => {
+
 }
 
 
@@ -43,31 +76,47 @@ const menu = (opcion) => {
         case '2':
             mostrarFarmacos();
             break
+        case '3':
+            eliminarFarmacos();
+        break
         default:
             alert('Intente nuevamente');
     }
-    opciones = prompt('Ingrese 1 para agregar farmacos, 2 para mostrarlos, 0 para salir');
+    opciones = prompt('MENU \nIngrese: \n1 para agregar farmacos, \n2 para mostrarlos, \n3 para eliminar un farmaco, \n0 para salir');
 }
 
 while (opciones !== '0') {
     menu(opciones)
-}
+} */
 
-const container = document.getElementById('contenedor');
+let contenedor = document.getElementById ('contenedor');
 
-let acumulador = '';
-for (const farmaco of farmacos) {
-    acumulador +=
-    `
-    <div class="card" style="width: 18rem;">
-        <img src="${farmacos.photo}" class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title">${farmacos.comercialName}</h5>
-            <p class="card-text">${farmacos.name + farmacos.miligram + farmacos.amount + farmacos.price}</p>
-            <a href="#" class="btn btn-primary">Comprar</a>
+const mostrarFarmacosHtml = (farmacos, contenedor) => {
+    let acumulador = '';
+    farmacos.forEach(element => {
+        acumulador += `
+        <div class="card" style="width: 18rem;">
+            <img src="${element.photo}" class="card-img-top" alt="${element.comercialname}">
+            <div class="card-body">
+                <h5 class="card-title">${element.comercialName}</h5>
+                <p class="card-text">${element.name +' '+ element.miligram + 'mg x ' + element.amount + ' comprimidos.'}</p>
+                <p class="card-text">Cajas: ${element.boxes + '  disponibles'}</p>
+                <p class="card-text">Precio: ${'$ ' + element.price}</p>
+                <a href="#" class="btn btn-primary">Comprar</a>
+            </div>
         </div>
-    </div>
-    `
+        `
+    })
+    contenedor.innerHTML = acumulador;
+}
+mostrarFarmacosHtml(farmacos,contenedor)
+
+const handleSearch = (e) => {
+    console.log(e.target.value)
+
+    const filtrarFarmacos = farmacos.filter(farmaco => farmaco.name.toLowerCase().includes(e.target.value.toLowerCase()))
+
+    mostrarFarmacosHtml(filtrarFarmacos, contenedor)
 }
 
-container.innerHTML = acumulador;
+inputSearch.addEventListener('input', handleSearch)
