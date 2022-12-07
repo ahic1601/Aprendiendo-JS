@@ -1,7 +1,5 @@
 //  Farmacia JS
 
-//alert('BIENVENIDO! \nEsta app sirve para armar un listado de medicamentos en comprimidos.')
-
 const farmacos = [
     {
         id: 1,
@@ -35,61 +33,8 @@ const farmacos = [
     },
 ];
 
-/* class FarmacoComprimido {
-    constructor() {
-        this.id = farmacos.length + 1;
-        this.name = prompt('Ingresa el nombre quimico del farmaco');
-        this.comercialName = prompt('Ingresa el nombre comercial del farmaco');
-        this.miligram = parseInt(prompt('Ingrese la candidad en miligramos del comprimido '));
-        this.amount = parseInt(prompt('Ingrese la cantidad de comprimidos de la presentacion'));
-        this.boxes = parseInt(prompt('Ingrese la cantidad de cajas del farmaco en existencia'));
-        this.price = parseInt(prompt('Ingrese el precio por caja'))
-        this.photo = prompt('Ingrese la url de la foto del producto')
-    }
-}
-
-let opciones = prompt('MENU \nIngrese: \n1 para agregar farmacos, \n2 para mostrarlos, \n3 para eliminar un farmaco, \n0 para salir');
-
-const agregarFarmacos = () => {
-    const newFarmaco = new FarmacoComprimido();
-    farmacos.push(newFarmaco);
-    console.log(farmacos);
-}
-
-const mostrarFarmacos = () => {
-    console.log('Sus Farmacos son:')
-    farmacos.forEach((farmaco, index) => {
-        console.log(index + 1, farmaco)
-    })
-}
-
-const eliminarFarmacos = () => {
-
-}
-
-
-const menu = (opcion) => {
-    switch (opcion) {
-        case '1':
-            agregarFarmacos();
-            break
-        case '2':
-            mostrarFarmacos();
-            break
-        case '3':
-            eliminarFarmacos();
-        break
-        default:
-            alert('Intente nuevamente');
-    }
-    opciones = prompt('MENU \nIngrese: \n1 para agregar farmacos, \n2 para mostrarlos, \n3 para eliminar un farmaco, \n0 para salir');
-}
-
-while (opciones !== '0') {
-    menu(opciones)
-} */
-
 let contenedor = document.getElementById ('contenedor');
+const inputSearch = document.getElementById('input-search');
 
 const mostrarFarmacosHtml = (farmacos, contenedor) => {
     let acumulador = '';
@@ -112,11 +57,11 @@ const mostrarFarmacosHtml = (farmacos, contenedor) => {
 mostrarFarmacosHtml(farmacos,contenedor)
 
 const handleSearch = (e) => {
-    console.log(e.target.value)
+    console.log(e.target.value);
 
-    const filtrarFarmacos = farmacos.filter(farmaco => farmaco.name.toLowerCase().includes(e.target.value.toLowerCase()))
+    const filtrarFarmacos = farmacos.filter(element => element.name.toLowerCase().includes(e.target.value.toLowerCase()));
 
-    mostrarFarmacosHtml(filtrarFarmacos, contenedor)
-}
+    mostrarFarmacosHtml(filtrarFarmacos, contenedor);
+};
 
-inputSearch.addEventListener('input', handleSearch)
+inputSearch.addEventListener ('input', handleSearch);
