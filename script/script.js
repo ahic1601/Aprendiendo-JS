@@ -95,7 +95,7 @@ const agregarAlCarrito = (id) => {
 const listarCarrito = (productoCarrito, contenedorCarrito) => {
     let acumuLador ='';
     productoCarrito.forEach((producto) => {
-        acumuLador =+ `
+        acumuLador += `
         <tr>
             <th scope="row">${producto.id}</th>
             <td>${producto.comercialName}</td>
@@ -106,7 +106,7 @@ const listarCarrito = (productoCarrito, contenedorCarrito) => {
         `
     })
     contenedorCarrito.innerHTML = acumuLador;
-    console.log(carrito)
+    console.log(acumuLador)
 }
 
 
