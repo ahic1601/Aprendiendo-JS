@@ -31,12 +31,33 @@ const farmacos = [
         price: 1200,
         photo: 'https://www.casasco.com.ar/wp-content/uploads/2018/04/Pack_web-24_blokiumP.jpg',
     },
+    {
+        id: 4,
+        name: 'Ibuprofeno',
+        comercialName: 'Ibupirac Fast',
+        miligram: 400,
+        amount: 10,
+        box: 1,
+        price: 600,
+        photo: 'https://www.ibupirac.com.uy/public/files/novedades/ibupirac_adaptaciones_1_60b77e02278a1.png',
+    },
+    {
+        id: 5,
+        name: 'Paracetamol',
+        comercialName: 'Tafirol',
+        miligram: 500,
+        amount: 30,
+        box: 1,
+        price: 800,
+        photo: 'http://d3ugyf2ht6aenh.cloudfront.net/stores/001/671/329/products/24-21-5447cf43590d84c30016262057208643-640-0.png',
+    },
 ];
 
 
 let contenedor = document.getElementById ('contenedor');
 const inputSearch = document.getElementById('input-search');
 let contenedorCarrito = document.getElementById('contenedor-carrito');
+let contenedorCarritoTotal = document.getElementById('contenedor-carrito-total')
 
 
 const mostrarFarmacosHtml = (farmacos, contenedor) => {
@@ -89,6 +110,7 @@ const agregarAlCarrito = (id) => {
             carrito.push(productoCarrito);
         }
     }
+    localStorage.setItem('carrito', JSON.stringify(carrito))
     listarCarrito(carrito,contenedorCarrito);
 }
 
@@ -106,7 +128,22 @@ const listarCarrito = (productoCarrito, contenedorCarrito) => {
         `
     })
     contenedorCarrito.innerHTML = acumuLador;
-    console.log(acumuLador)
+}
+
+const totalCarrito = (productoCarrito, contenedorCarritoTotal) => {
+    let acumuLador ='';
+    productoCarrito.forEach((producto) => {
+        acumuLador += `
+        <tr>
+            <th scope="row"></th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>$${producto.total}</td>
+        </tr>
+        `
+    })
+    contenedorCarritoTotal.innerHTML = acumuLador;
 }
 
 
@@ -117,6 +154,11 @@ const handleSearch = (e) => {
 
     mostrarFarmacosHtml(filtrarFarmacos, contenedor);
 };
+
+if(localStorage.getItem('carrito')){
+    carrito = JSON.parse(localStorage.getItem('carrito'));
+    listarCarrito(carrito, contenedorCarrito)
+}
 
 inputSearch.addEventListener ('input', handleSearch);
 
