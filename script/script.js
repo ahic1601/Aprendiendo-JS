@@ -1,5 +1,11 @@
 //  Farmacia JS
 
+const spinner = `<div class="d-flex justify-content-center m-auto">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>`;
+
 const farmacos = [
     {
         id: 1,
@@ -78,9 +84,31 @@ const mostrarFarmacosHtml = (farmacos, contenedor) => {
     })
     contenedor.innerHTML = acumulador;
 }
-mostrarFarmacosHtml(farmacos,contenedor)
+
+
+const database = new Promise (res => {
+    setTimeout (()=>{
+        res(farmacos)
+    }, 3000)
+})
 
 let carrito = [];
+let productos = [];
+
+const getInfo = () => {
+    contenedor.innerHTML = spinner;
+    
+    database
+    .then ((res) => {
+        console.log(res);
+        productos = res;
+        mostrarFarmacosHtml(res, contenedor)
+    })
+    .finally(() => {
+        console.log('termino de cargar')
+    })
+}
+
 
 class Carrito {
     constructor(id, comercialName, box, price, photo) {
@@ -159,6 +187,8 @@ if(localStorage.getItem('carrito')){
     carrito = JSON.parse(localStorage.getItem('carrito'));
     listarCarrito(carrito, contenedorCarrito)
 }
+
+getInfo();
 
 inputSearch.addEventListener ('input', handleSearch);
 
