@@ -1,5 +1,5 @@
 // CODER E-COMMERCE ASYNC
-const token = 'TEST-7958689689200934-021122-401c5047ace73e3c4c46253f6c18a3e3-31337594';
+const token = 'TEST-6794867399656851-122914-534f4a4375b03fae0321ec8aefa75263-255438701';
 
 const precioDolarText = document.getElementById('precio-dolar');
 const modalCompra = new bootstrap.Modal(document.getElementById('modal-compra'))
