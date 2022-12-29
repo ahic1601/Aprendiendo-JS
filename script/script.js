@@ -247,7 +247,3 @@ infoML.then((res) =>
    res.json()
 )
 .then(res => console.log(res))
-
-// fetch('./script/productos.json')
-// .then(res => res.json())
-// .then(res => console.log(res));
