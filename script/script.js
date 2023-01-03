@@ -26,16 +26,6 @@ const callML = () => {
 
 const precioDolar = fetch('https://www.dolarsi.com/api/api.php?type=valoresprincipales');
 
-// const traerDolar = () => {
-//     precioDolar
-//     .then(res => res.json())
-//     .then(res => {
-//         console.log(res);
-//         const oficial = res.find(dolar => dolar.casa.agencia === '349');
-//         console.log(oficial);
-//         precioDolarText.innerText = `Dolar Oficial:  Compra $${oficial?.casa.compra} - Venta $${oficial?.casa.venta}`
-//     });
-// }
 
 const traerDolar = async () => {
     const respuesta = await JSONResponse(precioDolar);
@@ -59,12 +49,11 @@ const fetchML = (item) => fetch('https://api.mercadopago.com/checkout/preference
 })
 
 const pagoML = async (item) => {
-    // const response = await fetchML();
-    // const responseJSON = await response.json()
+
     const response = await JSONResponse(fetchML(item))
 
     console.log(response);
-    //REDIRIGIMOS A LA URL DE PAGO
+
     window.location.href = response.init_point
 }
 
@@ -126,31 +115,6 @@ class Carrito {
 const contenedor = document.getElementById('contenedor');
 const inputSearch = document.getElementById('input-search');
 const contenedorCarrito = document.getElementById('contenedor-carrito');
-
-
-const agregarAlCarrito = (id) => {
-    if (!id) {
-        return;
-    }
-    const producto = productos.find(el => el.id === id);
-
-    if (producto) {
-        const productoCarrito = new Carrito(producto.id, producto.nombre, 1, producto.precio, producto.imagen);
-
-        if (carrito.some(el => el.id === id)) {
-            const target = carrito.find(el => el.id === id);
-            carrito = carrito.filter(el => el.id !== id);
-
-            const nuevoProducto = new Carrito(target.id, target.nombre, target.cantidad + 1, target.precio, target.imagen);
-            carrito.push(nuevoProducto)
-        } else {
-            carrito.push(productoCarrito);
-        }
-
-    }
-    localStorage.setItem('carrito', JSON.stringify(carrito));
-    listarCarrito(carrito)
-}
 
 const listarCarrito = (productosCarrito) => {
     let acumulador = '';
@@ -231,7 +195,6 @@ const handleSearch = (e) => {
 if (localStorage.getItem('carrito')) {
     carrito = JSON.parse(localStorage.getItem('carrito'));
     listarCarrito(carrito)
-
 }
 
 getInfo();
