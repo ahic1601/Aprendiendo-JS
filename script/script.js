@@ -1,6 +1,9 @@
 // CODER E-COMMERCE ASYNC
+
+//Token ML
 const token = 'TEST-6794867399656851-122914-534f4a4375b03fae0321ec8aefa75263-255438701';
 
+// Constantes
 const precioDolarText = document.getElementById('precio-dolar');
 const modalCompra = new bootstrap.Modal(document.getElementById('modal-compra'))
 const modalTitle = document.getElementById('modal-title');
@@ -8,25 +11,28 @@ const modalBody = document.getElementById('modal-body');
 const btnWeb = document.getElementById('btn-web');
 const btnPagar = document.getElementById('btn-pagar');
 
+// Async ML
 const JSONResponse = async (data) => {
     const response = await data;
     return await response.json();
 }
 
-
+// Animacion de espera
 const spinner = `<div class="d-flex justify-content-center m-auto">
                     <div class="spinner-border" role="status">
                         <span class="visually-hidden">Loading...</span>
                     </div>
-                </div>`
+                </div>`;
 
+// Fetch API ML
 const callML = () => {
     return fetch('https://api.mercadolibre.com/sites/MLA/search?category=MLA1055');
 }
 
+// Fetch API ML
 const precioDolar = fetch('https://www.dolarsi.com/api/api.php?type=valoresprincipales');
 
-
+// Impresion del Dolar en HTML
 const traerDolar = async () => {
     const respuesta = await JSONResponse(precioDolar);
     console.log(respuesta);
@@ -35,6 +41,7 @@ const traerDolar = async () => {
 
 }
 
+// Fetch para ulilizacion de API de Mercado Pago
 const fetchML = (item) => fetch('https://api.mercadopago.com/checkout/preferences', {
     headers: {
         "Authorization": 'Bearer ' + token,
@@ -48,6 +55,7 @@ const fetchML = (item) => fetch('https://api.mercadopago.com/checkout/preference
     })
 })
 
+// Async MP
 const pagoML = async (item) => {
 
     const response = await JSONResponse(fetchML(item))
@@ -58,7 +66,7 @@ const pagoML = async (item) => {
 }
 
 
-
+// Funcion para Carrito
 const irAlPago = (e) => {
     const id = e.target.getAttribute('ref');
 
@@ -82,10 +90,11 @@ const irAlPago = (e) => {
     
 }
 
-
+//Arrays
 let carrito = [];
 let productos = [];
 
+//Inyector del spinner y llamada de productos a ML
 const getInfo = () => {
     contenedor.innerHTML = spinner;
 
@@ -101,38 +110,12 @@ const getInfo = () => {
     })
 }
 
-class Carrito {
-    constructor(id, nombre, cantidad, precio, imagen) {
-        this.id = id;
-        this.nombre = nombre;
-        this.cantidad = cantidad;
-        this.precio = precio;
-        this.imagen = imagen;
-        this.total = precio * cantidad;
-    }
-}
-
+// Constantes para inyectar HTML
 const contenedor = document.getElementById('contenedor');
 const inputSearch = document.getElementById('input-search');
 const contenedorCarrito = document.getElementById('contenedor-carrito');
 
-const listarCarrito = (productosCarrito) => {
-    let acumulador = '';
-
-    productosCarrito.forEach((producto) => {
-        acumulador += `
-        <tr>
-        <th scope="row">${producto.id}</th>
-            <td>${producto.nombre}</td>
-            <td>$${producto.precio}</td>
-            <td>${producto.cantidad}</td>
-            <td>$${producto.total}</td>
-        </tr>
-        `
-    })
-    contenedorCarrito.innerHTML = acumulador;
-}
-
+// Inyector de productos en HTML
 const dibujarProductos = (productos, contenedor) => {
     let acumulador = '';
 
@@ -154,6 +137,7 @@ const dibujarProductos = (productos, contenedor) => {
     contenedor.innerHTML = acumulador;
 }
 
+// Inyector del modal Carrito
 const mostrarModal = (id) =>{
     const producto = productos.find(producto => producto.id === id);
 
@@ -183,7 +167,7 @@ const mostrarModal = (id) =>{
     modalCompra.show();
 }
 
-
+// Buscador
 const handleSearch = (e) => {
     console.log(e.target.value);
 
@@ -192,17 +176,16 @@ const handleSearch = (e) => {
     dibujarProductos(filtrados, contenedor)
 } 
 
-if (localStorage.getItem('carrito')) {
-    carrito = JSON.parse(localStorage.getItem('carrito'));
-    listarCarrito(carrito)
-}
+inputSearch.addEventListener('input', handleSearch);
 
+// Llamada a ejecucion de funciones.
 getInfo();
 traerDolar();
 
-inputSearch.addEventListener('input', handleSearch);
+// Boton de pago
 btnPagar.addEventListener('click', irAlPago);
 
+// Constante ML
 const infoML = fetch('https://api.mercadolibre.com/sites/MLA/search?category=MLA1055');
 console.log(infoML);
 
